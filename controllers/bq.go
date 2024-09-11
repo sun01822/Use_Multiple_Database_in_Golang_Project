@@ -7,10 +7,10 @@ import (
 )
 
 type BQController struct {
-	bqSvc domain.UseCase
+	bqSvc domain.BQUseCase
 }
 
-func NewBQController(bqSvc domain.UseCase) BQController {
+func NewBQController(bqSvc domain.BQUseCase) BQController {
 	return BQController{
 		bqSvc: bqSvc,
 	}

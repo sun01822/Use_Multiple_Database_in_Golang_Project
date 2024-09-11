@@ -19,8 +19,6 @@ func ConnectBQ() {
 	conf := config.BQ()
 	ctx := context.Background()
 
-	log.Info("connecting to bigquery at ", conf.ProjectID, ":", conf.DatasetID, "...")
-
 	client, clientErr := bigquery.NewClient(ctx, conf.ProjectID)
 	if clientErr != nil {
 		log.Fatalf("bigquery.NewClient: %v", clientErr)

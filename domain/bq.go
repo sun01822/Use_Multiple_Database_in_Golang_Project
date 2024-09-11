@@ -1,9 +1,9 @@
 package domain
 
-type Repository interface {
+type BQRepository interface {
 	GetFromBQ() (DataDetails, error)
 }
 
-type UseCase interface {
+type BQUseCase interface {
 	Get() (DataDetails, error)
 }

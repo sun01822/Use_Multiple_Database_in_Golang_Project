@@ -21,18 +21,22 @@ func serve(cmd *cobra.Command, args []string) {
 
 	// Clients
 	bqClient := conn.NewBqDBClient()
+	postgresClient := conn.NewPostgresClient()
 
 	// Repositories
 	bqRepo := repositories.NewBQRepository(bqClient)
+	postgresRepo := repositories.NewPostgresRepository(postgresClient)
 
 	// Services
 	bqSvc := services.NewBQService(&bqRepo)
+	pgSvc := services.NewPostgresService(postgresRepo)
 
 	// Controllers
 	bqCtr := controllers.NewBQController(bqSvc)
+	pgCtr := controllers.NewPostgresController(pgSvc)
 
 	var echo_ = echo.New()
-	var Routes = routes.NewRoutes(echo_, bqCtr)
+	var Routes = routes.NewRoutes(echo_, bqCtr, pgCtr)
 	var Server = server.New(echo_)
 
 	Routes.Init()

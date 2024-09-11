@@ -5,10 +5,10 @@ import (
 )
 
 type BQService struct {
-	bqRepo domain.Repository
+	bqRepo domain.BQRepository
 }
 
-func NewBQService(bqRepo domain.Repository) domain.UseCase {
+func NewBQService(bqRepo domain.BQRepository) domain.BQUseCase {
 	return BQService{
 		bqRepo: bqRepo,
 	}
