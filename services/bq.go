@@ -1,13 +1,19 @@
 package services
 
-import "myapp/repositories"
+import (
+	"myapp/domain"
+)
 
 type BQService struct {
-	bqRepo repositories.BQRepository
+	bqRepo domain.Repository
 }
 
-func NewBQService(bqRepo repositories.BQRepository) BQService {
+func NewBQService(bqRepo domain.Repository) domain.UseCase {
 	return BQService{
 		bqRepo: bqRepo,
 	}
+}
+
+func (s BQService) Get() (domain.DataDetails, error) {
+	return s.bqRepo.GetFromBQ()
 }

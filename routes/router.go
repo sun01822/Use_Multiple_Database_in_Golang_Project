@@ -23,7 +23,7 @@ func (r *Routes) Init() {
 	g := e.Group("/api/v1")
 
 	g.GET("/health", Health)
-
+	g.GET("/bq/get", r.bqCtr.Get)
 }
 
 func Health(c echo.Context) error {

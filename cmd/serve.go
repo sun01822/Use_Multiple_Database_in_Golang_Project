@@ -26,7 +26,7 @@ func serve(cmd *cobra.Command, args []string) {
 	bqRepo := repositories.NewBQRepository(bqClient)
 
 	// Services
-	bqSvc := services.NewBQService(bqRepo)
+	bqSvc := services.NewBQService(&bqRepo)
 
 	// Controllers
 	bqCtr := controllers.NewBQController(bqSvc)
