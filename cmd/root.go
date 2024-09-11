@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"myapp/config"
+	"myapp/conn"
 	"os"
 )
 
@@ -20,6 +21,7 @@ func init() {
 // Execute executes the root command
 func Execute() {
 	config.LoadConfig()
+	conn.ConnectBQ()
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
