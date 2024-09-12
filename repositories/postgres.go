@@ -16,15 +16,16 @@ func NewPostgresRepository(postgresClient *gorm.DB) *PostgresRepository {
 	return &PostgresRepository{postgresClient: postgresClient}
 }
 
-func (p PostgresRepository) GetFromPostgres() (domain.DataDetails, error) {
+func (p PostgresRepository) GetFromPostgres(limit int64) (domain.DataDetailsPG, error) {
 	pgConf := config.Postgres()
+	convertLimit := int(limit)
 
-	var resp domain.DataDetails
-	var data []domain.SubmissionDataModel
+	var resp domain.DataDetailsPG
+	var data []domain.SubmissionDataModelPG
 
 	startTime := time.Now()
-	if err := p.postgresClient.Table(pgConf.TableName).Find(&data).Error; err != nil {
-		return domain.DataDetails{}, err
+	if err := p.postgresClient.Table(pgConf.TableName).Limit(convertLimit).Find(&data).Error; err != nil {
+		return domain.DataDetailsPG{}, err
 	}
 	durationTime := time.Since(startTime)
 
@@ -34,5 +35,4 @@ func (p PostgresRepository) GetFromPostgres() (domain.DataDetails, error) {
 	resp.FetchingTime = fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
 	resp.Data = data
 	return resp, nil
-
 }

@@ -18,16 +18,16 @@ func NewBQRepository(bqClient *conn.MyAppBQDatabase) BQRepository {
 	}
 }
 
-func (bqRepo *BQRepository) GetFromBQ() (domain.DataDetails, error) {
+func (bqRepo *BQRepository) GetFromBQ(limit int64) (domain.DataDetailsBQ, error) {
 	// Your code here
-	var resp domain.DataDetails
-	var data []domain.SubmissionDataModel
+	var resp domain.DataDetailsBQ
+	var data []domain.SubmissionDataModelBQ
 	conf := config.BQ()
-	query := "SELECT * FROM " + conf.ProjectID + "." + conf.DatasetID + "." + conf.TableID + " LIMIT 10000"
+	query := "SELECT * FROM " + conf.ProjectID + "." + conf.DatasetID + "." + conf.TableID + " LIMIT " + fmt.Sprintf("%d", limit)
 
 	startTime := time.Now()
-	if err := bqRepo.bqClient.Get(&domain.SubmissionDataModel{}, query, &data); err != nil {
-		return domain.DataDetails{}, err
+	if err := bqRepo.bqClient.Get(&domain.SubmissionDataModelBQ{}, query, &data); err != nil {
+		return domain.DataDetailsBQ{}, err
 	}
 	durationTime := time.Since(startTime)
 

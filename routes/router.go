@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"myapp/controllers"
+	"myapp/methodutils"
 	"net/http"
 )
 
@@ -22,6 +23,7 @@ func NewRoutes(echo *echo.Echo, bqCtr controllers.BQController, pgCtr controller
 
 func (r *Routes) Init() {
 	e := r.echo
+	e.Use(methodutils.LogAPICall)
 	g := e.Group("/api/v1")
 
 	g.GET("/health", Health)

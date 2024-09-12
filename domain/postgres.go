@@ -1,9 +1,9 @@
 package domain
 
 type PostRepository interface {
-	GetFromPostgres() (DataDetails, error)
+	GetFromPostgres(limit int64) (DataDetailsPG, error)
 }
 
 type PostUseCase interface {
-	Get() (DataDetails, error)
+	GetFromPG(limit int64) (DataDetailsPG, error)
 }

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type SubmissionDataModel struct {
+type SubmissionDataModelBQ struct {
 	SubmissionUID bigquery.NullString `json:"submissionUid"`
 	EInvoiceID    bigquery.NullString `json:"eInvoiceId"`
 	SubmittedAt   time.Time           `json:"submittedAt"`
@@ -16,7 +16,7 @@ type SubmissionDataModel struct {
 	TraceID       bigquery.NullString `json:"traceId"`
 }
 
-type DataDetails struct {
-	FetchingTime string                `json:"fetchingTime"`
-	Data         []SubmissionDataModel `json:"data"`
+type DataDetailsBQ struct {
+	FetchingTime string                  `json:"fetchingTime"`
+	Data         []SubmissionDataModelBQ `json:"data"`
 }
