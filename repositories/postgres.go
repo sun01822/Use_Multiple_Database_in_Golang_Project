@@ -3,6 +3,7 @@ package repositories
 import (
 	"fmt"
 	"gorm.io/gorm"
+	"log"
 	"myapp/config"
 	"myapp/domain"
 	"time"
@@ -16,15 +17,25 @@ func NewPostgresRepository(postgresClient *gorm.DB) *PostgresRepository {
 	return &PostgresRepository{postgresClient: postgresClient}
 }
 
-func (p PostgresRepository) GetFromPostgres(limit int64) (domain.DataDetailsPG, error) {
+func (p PostgresRepository) GetFromPostgres(payload domain.Payload) (domain.DataDetailsPG, error) {
 	pgConf := config.Postgres()
-	convertLimit := int(limit)
+
+	query := "SELECT * FROM " + pgConf.TableName
+	if payload.UUID != "" {
+		query += " WHERE uuid = '" + payload.UUID + "'"
+	}
+	if payload.UUID == "" && payload.Date != "" {
+		query += " WHERE date = '" + payload.Date + "'"
+	}
+	if payload.UUID == "" && payload.Date == "" {
+		query += " LIMIT " + payload.Limit
+	}
 
 	var resp domain.DataDetailsPG
 	var data []domain.SubmissionDataModelPG
-
+	log.Println(query)
 	startTime := time.Now()
-	if err := p.postgresClient.Table(pgConf.TableName).Limit(convertLimit).Find(&data).Error; err != nil {
+	if err := p.postgresClient.Raw(query).Scan(&data).Error; err != nil {
 		return domain.DataDetailsPG{}, err
 	}
 	durationTime := time.Since(startTime)

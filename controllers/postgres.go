@@ -4,7 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"myapp/domain"
 	"net/http"
-	"strconv"
 )
 
 type PostgresController struct {
@@ -19,11 +18,16 @@ func NewPostgresController(postgresSvc domain.PostUseCase) PostgresController {
 
 func (pc *PostgresController) Get(c echo.Context) error {
 	// Your code here
-	limit, limitErr := strconv.ParseInt(c.QueryParam("limit"), 10, 64)
-	if limitErr != nil {
-		return c.JSON(http.StatusBadRequest, "Invalid limit")
-	}
-	getData, getDataErr := pc.postgresSvc.GetFromPG(limit)
+	var payload domain.Payload
+	uuid := c.QueryParam("uuid")
+	date := c.QueryParam("date")
+	limit := c.QueryParam("limit")
+
+	payload.UUID = uuid
+	payload.Date = date
+	payload.Limit = limit
+
+	getData, getDataErr := pc.postgresSvc.GetFromPG(payload)
 	if getDataErr != nil {
 		return c.JSON(http.StatusNotFound, getDataErr)
 	}

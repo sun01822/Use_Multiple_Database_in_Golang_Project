@@ -14,6 +14,6 @@ func NewBQService(bqRepo domain.BQRepository) domain.BQUseCase {
 	}
 }
 
-func (s BQService) GetDataBQ(limit int64) (domain.DataDetailsBQ, error) {
-	return s.bqRepo.GetFromBQ(limit)
+func (s BQService) GetDataBQ(payload domain.Payload) (domain.DataDetailsBQ, error) {
+	return s.bqRepo.GetFromBQ(payload)
 }

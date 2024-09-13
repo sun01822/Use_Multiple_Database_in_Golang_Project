@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"fmt"
+	"log"
 	"myapp/config"
 	"myapp/conn"
 	"myapp/domain"
@@ -18,13 +19,22 @@ func NewBQRepository(bqClient *conn.MyAppBQDatabase) BQRepository {
 	}
 }
 
-func (bqRepo *BQRepository) GetFromBQ(limit int64) (domain.DataDetailsBQ, error) {
+func (bqRepo *BQRepository) GetFromBQ(payload domain.Payload) (domain.DataDetailsBQ, error) {
 	// Your code here
 	var resp domain.DataDetailsBQ
 	var data []domain.SubmissionDataModelBQ
 	conf := config.BQ()
-	query := "SELECT * FROM " + conf.ProjectID + "." + conf.DatasetID + "." + conf.TableID + " LIMIT " + fmt.Sprintf("%d", limit)
-
+	query := "SELECT * FROM " + conf.ProjectID + "." + conf.DatasetID + "." + conf.TableID
+	if payload.UUID != "" {
+		query += " WHERE uuid = '" + payload.UUID + "'"
+	}
+	if payload.UUID == "" && payload.Date != "" {
+		query += " WHERE date = '" + payload.Date + "'"
+	}
+	if payload.UUID == "" && payload.Date == "" {
+		query += " LIMIT " + payload.Limit
+	}
+	log.Println(query)
 	startTime := time.Now()
 	if err := bqRepo.bqClient.Get(&domain.SubmissionDataModelBQ{}, query, &data); err != nil {
 		return domain.DataDetailsBQ{}, err

@@ -12,6 +12,6 @@ func NewPostgresService(postgresRepo domain.PostRepository) domain.PostUseCase {
 	}
 }
 
-func (p PostgresService) GetFromPG(limit int64) (domain.DataDetailsPG, error) {
-	return p.postgresRepo.GetFromPostgres(limit)
+func (p PostgresService) GetFromPG(payload domain.Payload) (domain.DataDetailsPG, error) {
+	return p.postgresRepo.GetFromPostgres(payload)
 }

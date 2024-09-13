@@ -1,9 +1,9 @@
 package domain
 
 type BQRepository interface {
-	GetFromBQ(limit int64) (DataDetailsBQ, error)
+	GetFromBQ(payload Payload) (DataDetailsBQ, error)
 }
 
 type BQUseCase interface {
-	GetDataBQ(limit int64) (DataDetailsBQ, error)
+	GetDataBQ(payload Payload) (DataDetailsBQ, error)
 }
