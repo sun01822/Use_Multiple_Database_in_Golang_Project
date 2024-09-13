@@ -29,7 +29,7 @@ func (bqRepo *BQRepository) GetFromBQ(payload domain.Payload) (domain.DataDetail
 		query += " WHERE uuid = '" + payload.UUID + "'"
 	}
 	if payload.UUID == "" && payload.Date != "" {
-		query += " WHERE date = '" + payload.Date + "'"
+		query += " WHERE date(SubmittedAt) = '" + payload.Date + "'"
 	}
 	if payload.UUID == "" && payload.Date == "" {
 		query += " LIMIT " + payload.Limit
@@ -44,7 +44,9 @@ func (bqRepo *BQRepository) GetFromBQ(payload domain.Payload) (domain.DataDetail
 	hours := int(durationTime.Hours())
 	minutes := int(durationTime.Minutes()) % 60
 	seconds := int(durationTime.Seconds()) % 60
-	resp.FetchingTime = fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
+	milliseconds := int(durationTime.Milliseconds()) % 1000
+	resp.FetchingTime = fmt.Sprintf("%02dh:%02dm:%02ds.%03dms", hours, minutes, seconds, milliseconds)
+	resp.CountRow = int64(len(data))
 	resp.Data = data
 	return resp, nil
 }

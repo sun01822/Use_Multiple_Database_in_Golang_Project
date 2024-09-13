@@ -18,5 +18,6 @@ type SubmissionDataModelBQ struct {
 
 type DataDetailsBQ struct {
 	FetchingTime string                  `json:"fetchingTime"`
+	CountRow     int64                   `json:"countRow"`
 	Data         []SubmissionDataModelBQ `json:"data"`
 }

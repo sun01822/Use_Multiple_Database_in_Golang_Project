@@ -13,5 +13,6 @@ type SubmissionDataModelPG struct {
 
 type DataDetailsPG struct {
 	FetchingTime string                  `json:"fetchingTime"`
+	CountRow     int64                   `json:"countRow"`
 	Data         []SubmissionDataModelPG `json:"data"`
 }
