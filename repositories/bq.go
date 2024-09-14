@@ -31,7 +31,7 @@ func (bqRepo *BQRepository) GetFromBQ(payload domain.Payload) (domain.DataDetail
 	if payload.UUID == "" && payload.Date != "" {
 		query += " WHERE date(SubmittedAt) = '" + payload.Date + "'"
 	}
-	if payload.UUID == "" && payload.Date == "" {
+	if payload.UUID == "" && payload.Limit != "" {
 		query += " LIMIT " + payload.Limit
 	}
 	log.Println(query)
