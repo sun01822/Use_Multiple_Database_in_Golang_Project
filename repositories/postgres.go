@@ -25,7 +25,7 @@ func (p PostgresRepository) GetFromPostgres(payload domain.Payload) (domain.Data
 		query += " WHERE uuid = '" + payload.UUID + "'"
 	}
 	if payload.UUID == "" && payload.Date != "" {
-		query += " WHERE submitted_at like '" + payload.Date + "%'"
+		query += " WHERE date(submitted_at) = '" + payload.Date + "'"
 	}
 	if payload.UUID == "" && payload.Limit != "" {
 		query += " LIMIT " + payload.Limit
