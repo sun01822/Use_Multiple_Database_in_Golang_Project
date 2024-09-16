@@ -3,7 +3,7 @@ package domain
 type SubmissionDataModelPG struct {
 	SubmissionUID string `json:"submissionUid" gorm:"column:submissionUid"`
 	EInvoiceID    string `json:"eInvoiceId" gorm:"column:eInvoiceId"`
-	SubmittedAt   string `json:"submittedAt" gorm:"column:submittedAt"`
+	SubmittedAt   string `json:"submittedAt" gorm:"column:submitted_at"`
 	Status        string `json:"status" gorm:"column:status"`
 	UUID          string `json:"uuid" gorm:"column:uuid" gorm:"primary key"`
 	LongID        string `json:"longId" gorm:"column:longId"`
